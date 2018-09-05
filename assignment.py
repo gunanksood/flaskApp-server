@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect, url_for
+from flask import Flask, flash, render_template, request, redirect
 from werkzeug.utils import secure_filename
 import os
 from flask import send_from_directory
@@ -24,7 +24,10 @@ def upload_file():
         file = request.files['file']
         print(file.filename)
         if file:
-            connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+            cred = pika.PlainCredentials('gunank', 'gunank')
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.17.0.1',
+                                                                           port=5672, virtual_host='/',
+                                                                           credentials=cred))
             channel = connection.channel()
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -37,7 +40,7 @@ def upload_file():
                 channel.basic_publish(exchange='', routing_key='tasks_queue', body=line,
                                       # properties=pika.BasicProperties(delivery_mode=2,  # make message persistent
                                       #                                 )
-                                      )
+                                      mandatory=0, immediate=0)
             connection.close()
             return render_template('index.html')
 
@@ -46,8 +49,6 @@ def upload_file():
             # r = request.post(url, files)
             # return filename
     return render_template('index.html')
-
-
 # @app.route('/uploads/<filename>')
 # def uploaded_file(filename):
 #     return send_from_directory(app.config['UPLOAD_FOLDER'],
