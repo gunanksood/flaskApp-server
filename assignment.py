@@ -43,7 +43,6 @@ def upload_file():
                                       mandatory=0, immediate=0)
             connection.close()
             return render_template('index.html')
-
             # url = '127.0.0.1:5000/post'
             # files = request.files
             # r = request.post(url, files)
