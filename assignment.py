@@ -26,7 +26,7 @@ def upload_file():
         if file:
             cred = pika.PlainCredentials('gunank', 'gunank')
             connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.17.0.1',
-                                                                           port=5672, virtual_host='/',
+                                                                           port=5673, virtual_host='/',
                                                                            credentials=cred))
             channel = connection.channel()
             filename = secure_filename(file.filename)

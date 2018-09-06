@@ -1,0 +1,15 @@
+version: '2'
+services:
+    rabbit:
+        hostname: rabbit
+        image: rabbitmq:latest
+        environment:
+            - RABBITMQ_DEFAULT_USER=gunank
+            - RABBITMQ_DEFAULT_PASS=gunank
+        ports:
+            - "5673:5672"
+    consumer-service:
+        build: ./ConsumerDir
+        depends_on:
+            - rabbit
+        tty: true
