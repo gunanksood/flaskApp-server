@@ -8,8 +8,8 @@ services:
             - RABBITMQ_DEFAULT_PASS=gunank
         ports:
             - "5673:5672"
-    consumer-service:
-        build: ./ConsumerDir
-        depends_on:
-            - rabbit
-        tty: true
+#    consumer-service:
+#        build: ./ConsumerDir
+#        depends_on:
+#            - rabbit
+#        tty: true

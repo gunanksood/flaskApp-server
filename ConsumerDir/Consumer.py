@@ -1,6 +1,6 @@
 import pika
-import time
 import pymongo
+
 
 cred = pika.PlainCredentials('gunank', 'gunank')
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='172.17.0.1',
@@ -19,10 +19,8 @@ def callback(ch, method, properties, body):
     l = body.split(",")
     # mydata = {"ID": l[0], "name": l[1], "Marks": l[2]}
     # x = mycol.insert_one(mydata)
-    print(" [x] Received %s hello " % l)
-    # time.sleep(body.count(b'.'))
-    print(" [x] Done")
-    # ch.basic_ack(delivery_tag=method.delivery_tag)
+    print("Received %s hello " % l)
+    ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 channel.basic_qos(prefetch_count=100)
@@ -32,5 +30,3 @@ channel.basic_consume(callback,
 
 
 channel.start_consuming()
-
-
