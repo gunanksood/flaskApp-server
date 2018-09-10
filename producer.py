@@ -24,8 +24,6 @@ def send_data(file):
     channel.queue_declare(queue='tasks_queue')
     for line in open(path, "r"):
         channel.basic_publish(exchange='', routing_key='tasks_queue', body=line,
-                              # properties=pika.BasicProperties(delivery_mode=2,  # make message persistent
-                              #                                 )
                               mandatory=1, immediate=0)
     connection.close()
 
